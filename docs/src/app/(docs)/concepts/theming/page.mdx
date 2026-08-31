@@ -528,3 +528,37 @@ type UploadDropzoneProps = {
 <d.CustomContent1 />
 <d.CustomContent2 />
 <d.CustomContent3 />
+
+### Internationalization
+
+UploadThing does not bundle translations for its components. Instead, use the
+`content` prop to provide copy from your application's translation catalog. A
+content callback receives the component state, so translated content can still
+show loading and upload progress:
+
+```tsx
+const french = {
+  loading: "Chargement...",
+  chooseFiles: "Choisir des fichiers",
+  uploading: "Téléversement",
+  allowedContent: "Images jusqu'à 4 Mo",
+};
+
+<UploadButton
+  endpoint="imageUploader"
+  content={{
+    button({ ready, isUploading, uploadProgress }) {
+      if (!ready) return french.loading;
+      if (isUploading) {
+        return `${french.uploading} ${Math.round(uploadProgress)}%`;
+      }
+      return french.chooseFiles;
+    },
+    allowedContent: french.allowedContent,
+  }}
+/>;
+```
+
+The same approach works with `UploadDropzone`. Supply translated content for its
+`label`, `button`, and `allowedContent` fields, and keep any state-specific copy
+in callbacks.

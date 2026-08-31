@@ -550,7 +550,7 @@ const french = {
     button({ ready, isUploading, uploadProgress }) {
       if (!ready) return french.loading;
       if (isUploading) {
-        return `${french.uploading} ${Math.round(uploadProgress)}%`;
+        return `${french.uploading} ${Math.round(uploadProgress)}\u00a0%`;
       }
       return french.chooseFiles;
     },

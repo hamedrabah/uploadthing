@@ -493,6 +493,32 @@ type UploadDropzoneProps = {
 };
 ```
 
+Each `ContentField` can be a fixed value or a callback. Callback fields receive
+the current component state, so you can change the copy for loading, uploading,
+dragging, and selected-file states. `UploadDropzone` callbacks also receive
+`isDragActive`; both components expose `ready`, `isUploading`, `uploadProgress`,
+`fileTypes`, and `files` where applicable.
+
+For example, a dropzone can show different translated labels while it is
+preparing, while the user is dragging files over it, and after files have been
+selected:
+
+```jsx
+<UploadDropzone
+  endpoint="mockRoute"
+  content={{
+    label({ ready, isDragActive }) {
+      if (!ready) return "Preparing...";
+      if (isDragActive) return "Drop files here";
+      return "Drag files here";
+    },
+    button({ files }) {
+      return files.length ? `Upload ${files.length} file(s)` : "Choose files";
+    },
+  }}
+/>
+```
+
 <Note>
   When you take over the `content` of an element, you get full responsibility to
   control the different states of the component. For example, if you customize
